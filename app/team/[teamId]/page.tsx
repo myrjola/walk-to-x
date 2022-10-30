@@ -8,6 +8,8 @@ interface Props {
     params: Params
 }
 
+export const revalidate = 60
+
 export default async function Page({ params }: Props) {
     const id = parseInt(params.teamId)
 

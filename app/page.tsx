@@ -1,6 +1,8 @@
 import Link from 'next/link'
 import prisma from '../lib/prisma'
 
+export const revalidate = 60
+
 export default async function Page() {
   const teams = await prisma.team.findMany()
 
