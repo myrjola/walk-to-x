@@ -1,33 +1,36 @@
-import prisma from '../../../lib/prisma'
+import prisma from "../../../lib/prisma";
+import { headers } from "next/headers";
 
 interface Params {
-    teamId: string
+  teamId: string;
 }
 
 interface Props {
-    params: Params
+  params: Params;
 }
 
-export const revalidate = 60
+export const revalidate = 60;
 
 export default async function Page({ params }: any) {
-    const id = parseInt(params.teamId)
+  headers(); // Make this page dynamic
 
-    if (!id) {
-        throw "Invalid team ID!"
-    }
+  const id = parseInt(params.teamId);
 
-    const team = await prisma.team.findFirst({
-        where: {id}
-    })
+  if (!id) {
+    throw "Invalid team ID!";
+  }
 
-    if (!team) {
-        throw "Team not found!"
-    }
+  const team = await prisma.team.findFirst({
+    where: { id },
+  });
 
-    return (
-        <main>
-          <h1>{team.name}</h1>
-        </main>
+  if (!team) {
+    throw "Team not found!";
+  }
+
+  return (
+    <main>
+      <h1>{team.name}</h1>
+    </main>
   );
 }
