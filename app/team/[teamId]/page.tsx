@@ -1,9 +1,11 @@
 import prisma from '../../../lib/prisma'
 
+interface Params {
+    teamId: string
+}
+
 interface Props {
-    params: {
-        teamId: string
-    }
+    params: Params
 }
 
 export default async function Page({ params }: Props) {
