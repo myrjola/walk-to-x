@@ -1,12 +1,18 @@
 'use client';
 
+interface ErrorWithDigest extends Error {
+    digest: string
+}
+
 export default function Error({ error, reset }: {
-    error: Error;
+    error: ErrorWithDigest;
     reset: () => void;
 }) {
     return (
         <div>
-            <p>Something went wrong! Error: {error.toString()}</p>
+            <p>Something went wrong!</p>
+            <pre>{error.toString()}</pre>
+            {error?.digest && <p>Digest: {error?.digest}</p>}
             <button onClick={() => reset()}>Reset error boundary</button>
         </div>
     );
