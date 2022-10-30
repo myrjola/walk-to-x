@@ -1,4 +1,5 @@
 import {ReactNode} from 'react'
+export { reportWebVitals } from 'next-axiom';
 
 interface Props {
     children: ReactNode
