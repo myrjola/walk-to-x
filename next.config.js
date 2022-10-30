@@ -1,4 +1,4 @@
-const { withAxiom } = require('next-axiom');
+const { withAxiom } = require("next-axiom");
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
@@ -6,8 +6,8 @@ const nextConfig = {
   swcMinify: true,
   experimental: {
     appDir: true,
-    serverComponentsExternalPackages: ['@prisma/client'],
-  }
-}
+    serverComponentsExternalPackages: ["@prisma/client"],
+  },
+};
 
-module.exports = withAxiom(nextConfig)
+module.exports = withAxiom(nextConfig);

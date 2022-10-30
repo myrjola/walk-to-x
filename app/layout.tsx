@@ -1,16 +1,16 @@
-import {ReactNode} from 'react'
+import { ReactNode } from "react";
 
 interface Props {
-    children: ReactNode
+  children: ReactNode;
 }
 
 export default function RootLayout({ children }: Props) {
   return (
     <html>
       <head>
-         <title>Walk to X</title>
+        <title>Walk to X</title>
       </head>
       <body>{children}</body>
     </html>
-  )
+  );
 }
