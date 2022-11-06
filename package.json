@@ -12,6 +12,8 @@
   },
   "dependencies": {
     "@prisma/client": "^4.5.0",
+    "@simplewebauthn/browser": "^6.2.2",
+    "@simplewebauthn/server": "^6.2.2",
     "@trpc/client": "^10.0.0-rc.4",
     "@trpc/server": "^10.0.0-rc.4",
     "next": "^13.0.2",
@@ -22,6 +24,7 @@
     "zod": "^3.19.1"
   },
   "devDependencies": {
+    "@simplewebauthn/typescript-types": "^6.3.0-alpha.1",
     "@types/node": "^18.11.9",
     "@types/react": "18.0.25",
     "@types/react-dom": "^18.0.8",
