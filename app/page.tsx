@@ -1,7 +1,7 @@
 import Link from "next/link";
 import prisma from "../lib/prisma";
 import { headers } from "next/headers";
-import CreateTeam from "./team/CreateTeam";
+import CreateTeam from "./CreateTeam";
 
 export default async function Page() {
   headers(); // Make this page dynamic

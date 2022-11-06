@@ -9,9 +9,7 @@ interface Props {
   params: Params;
 }
 
-export const revalidate = 60;
-
-export default async function Page({ params }: any) {
+export default async function Page({ params }: Props) {
   headers(); // Make this page dynamic
 
   const id = parseInt(params.teamId);
