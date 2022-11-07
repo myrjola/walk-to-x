@@ -4,8 +4,8 @@ import {
   VerifiedRegistrationResponse,
   verifyRegistrationResponse,
 } from "@simplewebauthn/server";
-import { expectedOrigin, expectedRPID } from "../../../utils/webauthn";
 import { RegistrationCredentialJSON } from "@simplewebauthn/typescript-types";
+import { resolveRpIdAndOrigin } from "../../../utils/webauthn";
 
 interface Input extends RegistrationCredentialJSON {
   userName: string;
@@ -48,12 +48,15 @@ export default async function handler(
   }
 
   let verification: VerifiedRegistrationResponse;
+
+  const { rpId, origin } = resolveRpIdAndOrigin(req.headers);
+
   try {
     verification = await verifyRegistrationResponse({
       credential: body,
       expectedChallenge,
-      expectedOrigin,
-      expectedRPID,
+      expectedOrigin: origin,
+      expectedRPID: rpId,
     });
   } catch (error) {
     console.error(error);

@@ -49,7 +49,8 @@ export default function RegisterUser() {
           Your name
           <input
             disabled={isSubmitting}
-            name="userName"
+            name="username"
+            autoComplete="username webauthn"
             onChange={(event) => setName(event.target.value)}
           />
         </label>

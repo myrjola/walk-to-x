@@ -1,6 +1,6 @@
 import { generateRegistrationOptions } from "@simplewebauthn/server";
 import { NextApiRequest, NextApiResponse } from "next";
-import { rpID, rpName } from "../../../utils/webauthn";
+import { resolveRpIdAndOrigin, rpName } from "../../../utils/webauthn";
 import prisma from "../../../lib/prisma";
 
 export default async function handler(
@@ -44,6 +44,8 @@ export default async function handler(
     res.status(403).json({ error: "user already registered" });
     return;
   }
+
+  const { rpId: rpID } = resolveRpIdAndOrigin(req.headers);
 
   const options = generateRegistrationOptions({
     rpName,
