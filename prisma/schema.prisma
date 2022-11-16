@@ -38,13 +38,13 @@ model WebAuthnUser {
 
 model Authenticator {
   id                   Int      @default(autoincrement()) @id
-  credentialId         String   @unique
+  credentialID         String   @unique
   credentialPublicKey  Bytes
   createdAt            DateTime @default(now())
   credentialDeviceType String   @db.VarChar(31)
   credentialBackedUp   Boolean
   transports           String?  @db.VarChar(255)
-  counter              BigInt
+  counter              Int
 
   webAuthnUser   WebAuthnUser @relation(fields: [webAuthnUserId], references: [id])
   webAuthnUserId Int

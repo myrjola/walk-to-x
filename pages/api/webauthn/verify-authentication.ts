@@ -1,13 +1,13 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import prisma from "../../../lib/prisma";
 import {
-  VerifiedRegistrationResponse,
-  verifyRegistrationResponse,
+  VerifiedAuthenticationResponse,
+  verifyAuthenticationResponse,
 } from "@simplewebauthn/server";
-import { RegistrationCredentialJSON } from "@simplewebauthn/typescript-types";
+import { AuthenticationCredentialJSON } from "@simplewebauthn/typescript-types";
 import { resolveRpIdAndOrigin } from "../../../utils/webauthn";
 
-interface Input extends RegistrationCredentialJSON {
+interface Input extends AuthenticationCredentialJSON {
   userName: string;
 }
 
@@ -28,11 +28,7 @@ export default async function handler(
       name: userName,
     },
     include: {
-      webAuthnUser: {
-        include: {
-          authenticators: true,
-        },
-      },
+      webAuthnUser: true,
     },
   });
 
@@ -41,57 +37,64 @@ export default async function handler(
     return;
   }
 
-  if (profile.webAuthnUser.authenticators.length > 0) {
-    res.status(403).json({ error: "user already registered" });
-    return;
-  }
-
   const expectedChallenge = profile.webAuthnUser.challenge;
 
   if (!expectedChallenge) {
-    res.status(403).json({ error: "call generate-registration-options first" });
+    res
+      .status(403)
+      .json({ error: "call generate-authentication-options first" });
     return;
   }
 
-  let verification: VerifiedRegistrationResponse;
+  let verification: VerifiedAuthenticationResponse;
 
   const { rpId, origin } = resolveRpIdAndOrigin(req.headers);
 
+  const authenticator = await prisma.authenticator.findUnique({
+    where: {
+      credentialID: body.id,
+    },
+  });
+
+  if (!authenticator) {
+    res.status(403).json({ error: "invalid authenticator id" });
+    return;
+  }
+
   try {
-    verification = await verifyRegistrationResponse({
+    verification = await verifyAuthenticationResponse({
       credential: body,
       expectedChallenge,
       expectedOrigin: origin,
       expectedRPID: rpId,
+      authenticator: {
+        ...authenticator,
+        transports: undefined,
+        credentialID: Buffer.from(authenticator.credentialID, "base64url"),
+      },
     });
   } catch (error) {
     console.error(error);
     return res.status(400).send({ error: (error as any).message });
   }
 
-  const { verified, registrationInfo } = verification;
-  if (!registrationInfo) {
-    res.status(500).json({ error: "empty registrationInfo" });
-    return;
-  }
-  const {
-    credentialPublicKey,
-    credentialID,
-    counter,
-    credentialDeviceType,
-    credentialBackedUp,
-  } = registrationInfo;
+  const { verified, authenticationInfo } = verification;
 
-  await prisma.authenticator.create({
+  const { newCounter } = authenticationInfo;
+
+  await prisma.authenticator.update({
+    where: {
+      credentialID: authenticator.credentialID,
+    },
     data: {
-      credentialPublicKey: credentialPublicKey,
-      credentialID: credentialID.toString("base64url"),
-      counter,
-      credentialDeviceType,
-      credentialBackedUp,
-      webAuthnUserId: profile.webAuthnUser.id,
+      counter: newCounter,
     },
   });
+
+  res.setHeader(
+    "Set-Cookie",
+    `token=${authenticator.credentialID}; path=/; samesite=lax; httponly;`
+  );
 
   res.status(200).json({ verified });
 }
