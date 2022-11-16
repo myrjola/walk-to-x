@@ -1,24 +1,46 @@
-import Link from "next/link";
+import { cookies } from "next/headers";
+import RegisterUser from "./RegisterUser";
+import AuthenticateUser from "./AuthenticateUser";
 import prisma from "../lib/prisma";
-import { headers } from "next/headers";
-import CreateTeam from "./CreateTeam";
 
 export default async function Page() {
-  headers(); // Make this page dynamic
+  const nextCookies = cookies(); // Make this page dynamic
+  const token = nextCookies.get("token");
 
-  const teams = await prisma.team.findMany();
+  let userName;
+
+  if (token) {
+    const authenticator = await prisma.authenticator.findUnique({
+      where: {
+        credentialID: token.value,
+      },
+      include: {
+        webAuthnUser: {
+          include: {
+            userProfile: true,
+          },
+        },
+      },
+    });
+    userName = authenticator?.webAuthnUser?.userProfile?.name;
+  }
 
   return (
     <main>
       <h1>Walk to X</h1>
-      <CreateTeam />
-      <ul>
-        {teams.map((team) => (
-          <li key={team.id}>
-            <Link href={`/team/${team.id}`}>{team.name}</Link>
-          </li>
-        ))}
-      </ul>
+      {userName ? (
+        <>
+          <p>Welcome {userName}!</p>
+          <div>
+            <a href="/api/webauthn/logout">Sign out</a>
+          </div>
+        </>
+      ) : (
+        <>
+          <RegisterUser />
+          <AuthenticateUser />
+        </>
+      )}
     </main>
   );
 }

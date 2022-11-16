@@ -15,3 +15,37 @@ model Team {
   updatedAt DateTime @updatedAt
   name      String   @db.VarChar(255)
 }
+
+model UserProfile {
+  id         Int      @default(autoincrement()) @id
+  name       String   @db.VarChar(31) @unique
+  createdAt  DateTime @default(now())
+
+  webAuthnUser WebAuthnUser?
+}
+
+model WebAuthnUser {
+  id         Int      @default(autoincrement()) @id
+  challenge  String?
+  registered Boolean  @default(false)
+  createdAt  DateTime @default(now())
+
+  userProfile   UserProfile @relation(fields: [userProfileId], references: [id])
+  userProfileId Int @unique
+
+  authenticators Authenticator[]
+}
+
+model Authenticator {
+  id                   Int      @default(autoincrement()) @id
+  credentialID         String   @unique
+  credentialPublicKey  Bytes
+  createdAt            DateTime @default(now())
+  credentialDeviceType String   @db.VarChar(31)
+  credentialBackedUp   Boolean
+  transports           String?  @db.VarChar(255)
+  counter              Int
+
+  webAuthnUser   WebAuthnUser @relation(fields: [webAuthnUserId], references: [id])
+  webAuthnUserId Int
+}
