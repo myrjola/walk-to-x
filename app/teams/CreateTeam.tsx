@@ -17,7 +17,7 @@ export default function CreateTeam() {
         const team = await client.addTeam.query({ name });
         setName("");
         setIsSubmitting(false);
-        router.push(`/team/${team.id}`);
+        router.push(`/teams/${team.id}`);
       }}
     >
       <label>

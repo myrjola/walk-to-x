@@ -1,15 +1,31 @@
 import { z } from "zod";
-import { publicProcedure, router } from "../trpc";
+import { protectedProcedure, router } from "../trpc";
 import prisma from "../../lib/prisma";
 export const appRouter = router({
-  addTeam: publicProcedure
+  addTeam: protectedProcedure
     .input(
       z.object({
         name: z.string(),
       })
     )
-    .query(({ input }) => {
-      return prisma.team.create({data: {name: input.name}});
+    .query(async ({ input, ctx }) => {
+      const user = await prisma.userProfile.update({
+        where: {
+          id: ctx.user.id,
+        },
+        data: {
+          team: {
+            create: {
+              name: input.name,
+            },
+          },
+        },
+        include: {
+          team: true,
+        },
+      });
+
+      return user.team;
     }),
 });
 

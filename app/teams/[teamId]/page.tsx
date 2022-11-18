@@ -20,6 +20,9 @@ export default async function Page({ params }: Props) {
 
   const team = await prisma.team.findFirst({
     where: { id },
+    include: {
+      members: true,
+    },
   });
 
   if (!team) {
@@ -29,6 +32,12 @@ export default async function Page({ params }: Props) {
   return (
     <main>
       <h1>{team.name}</h1>
+      <h2>Members</h2>
+      <ul>
+        {team.members.map((member) => (
+          <li key={member.id}>{member.name}</li>
+        ))}
+      </ul>
     </main>
   );
 }
