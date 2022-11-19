@@ -29,12 +29,7 @@ export default async function Page() {
     <main>
       <h1>Walk to X</h1>
       {userName ? (
-        <>
-          <p>Welcome {userName}!</p>
-          <div>
-            <a href="/api/webauthn/logout">Sign out</a>
-          </div>
-        </>
+        <p>Welcome {userName}!</p>
       ) : (
         <>
           <RegisterUser />
