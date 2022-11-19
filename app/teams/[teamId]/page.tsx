@@ -33,7 +33,7 @@ export default async function Page({ params }: Props) {
 
   const user = await getUser();
 
-  const canJointeam = !user || user.teamId !== teamId;
+  const canJointeam = user && user.teamId !== teamId;
 
   return (
     <main>
