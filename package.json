@@ -1,7 +1,7 @@
 {
   "name": "nextjs",
   "version": "0.1.0",
-  "private": true,
+  "license": "MIT",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
@@ -10,8 +10,10 @@
     "postinstall": "prisma format && prisma generate",
     "type-check": "tsc"
   },
+  "prisma": {
+    "seed": "node prisma/seed.js"
+  },
   "dependencies": {
-    "prisma": "^4.6.1",
     "@prisma/client": "^4.6.1",
     "@simplewebauthn/browser": "^6.2.2",
     "@simplewebauthn/server": "^6.2.2",
@@ -19,6 +21,7 @@
     "@trpc/server": "^10.0.0-rc.8",
     "next": "^13.0.3",
     "next-axiom": "^0.15.1",
+    "prisma": "^4.6.1",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "typescript": "^4.9.3",

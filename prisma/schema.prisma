@@ -17,8 +17,8 @@ model Team {
 
   authenticators Authenticator[]
   members        UserProfile[]
-  challenge      Challenge?      @relation(fields: [challengeId], references: [id])
-  challengeId    Int?
+  challenge      Challenge      @relation(fields: [challengeId], references: [id])
+  challengeId    Int
 }
 
 model Challenge {
@@ -26,15 +26,15 @@ model Challenge {
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
   name         String   @unique @db.VarChar(255)
-  distanceGoal Float    @db.Double
+  meters       Float    @db.Double
 
   teams Team[]
 }
 
-model Exercise {
+model Distance {
   id        Int      @id @default(autoincrement())
   createdAt DateTime @default(now())
-  distance  Float    @db.Double
+  meters    Float    @db.Double
 
   userProfile   UserProfile @relation(fields: [userProfileId], references: [id])
   userProfileId Int
@@ -48,7 +48,7 @@ model UserProfile {
   webAuthnUser WebAuthnUser?
   team         Team?         @relation(fields: [teamId], references: [id])
   teamId       Int?          @unique
-  exercises    Exercise[]
+  distances    Distance[]
 }
 
 model WebAuthnUser {
