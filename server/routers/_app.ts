@@ -1,12 +1,12 @@
 import { z } from "zod";
 import { protectedProcedure, router } from "../trpc";
 import prisma from "../../lib/prisma";
-import { TRPCError } from "@trpc/server";
 export const appRouter = router({
   addTeam: protectedProcedure
     .input(
       z.object({
         name: z.string(),
+        challengeId: z.number(),
       })
     )
     .query(async ({ input, ctx }) => {
@@ -18,6 +18,7 @@ export const appRouter = router({
           team: {
             create: {
               name: input.name,
+              challengeId: input.challengeId,
             },
           },
         },
@@ -44,38 +45,6 @@ export const appRouter = router({
           teamId: input.teamId,
         },
       });
-
-      return true;
-    }),
-
-  addTeamMember: protectedProcedure
-    .input(
-      z.object({
-        teamId: z.number().positive(),
-        userId: z.number().positive(),
-      })
-    )
-    .query(async ({ input, ctx }) => {
-      if (ctx.user.teamId !== input.teamId) {
-        throw new TRPCError({ code: "UNAUTHORIZED", message: "Not your team" });
-      }
-
-      const user = await prisma.userProfile.update({
-        where: {
-          id: input.userId,
-          teamId: undefined,
-        },
-        data: {
-          teamId: input.teamId,
-        },
-      });
-
-      if (!user) {
-        throw new TRPCError({
-          code: "UNAUTHORIZED",
-          message: "User not found or already has team",
-        });
-      }
 
       return true;
     }),
