@@ -17,6 +17,7 @@ export default function ActiveNavLink({ href, children }: Props) {
 
   return (
     <Link
+      aria-current={active ? "page" : false}
       className={classNames(
         "rounded-md px-3 py-2.5 font-medium text-gray-300 hover:bg-gray-700 hover:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-white",
         {

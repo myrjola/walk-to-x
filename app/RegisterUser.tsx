@@ -32,15 +32,21 @@ export default function RegisterUser() {
 
     const options: PublicKeyCredentialCreationOptionsJSON = await res.json();
 
-    const attResp = await startRegistration(options);
+    try {
+      const attResp = await startRegistration(options);
 
-    await fetch("/api/webauthn/verify-registration", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ ...attResp, userName: options.user.name }),
-    });
+      await fetch("/api/webauthn/verify-registration", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ ...attResp, userName: options.user.name }),
+      });
+    } catch (e) {
+      setError("userName", {
+        message: e + "",
+      });
+    }
     router.refresh();
   });
 
@@ -51,7 +57,9 @@ export default function RegisterUser() {
           Your name
           <input {...register("userName")} autoComplete="username webauthn" />
         </label>
-        {errors.userName && <pre>{errors.userName?.message}</pre>}
+        {errors.userName && (
+          <div className="text-red-400">{errors.userName?.message}</div>
+        )}
         <button disabled={isSubmitting} type="submit">
           Register
         </button>

@@ -15,6 +15,7 @@
   },
   "dependencies": {
     "@prisma/client": "^4.6.1",
+    "@radix-ui/react-label": "^2.0.0",
     "@radix-ui/react-popover": "^1.0.2",
     "@simplewebauthn/browser": "^6.2.2",
     "@simplewebauthn/server": "^6.2.2",
