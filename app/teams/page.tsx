@@ -15,7 +15,7 @@ export default async function Page() {
       <ul>
         {teams.map((team) => (
           <li key={team.id}>
-            <Link href={`/team/${team.id}`}>{team.name}</Link>
+            <Link href={`/teams/${team.id}`}>{team.name}</Link>
           </li>
         ))}
       </ul>

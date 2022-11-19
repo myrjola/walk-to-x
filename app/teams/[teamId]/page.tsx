@@ -1,5 +1,7 @@
 import prisma from "../../../lib/prisma";
 import { headers } from "next/headers";
+import JoinTeamButton from "./JoinTeamButton";
+import { getUser } from "../../../server/services/user-rsc";
 
 interface Params {
   teamId: string;
@@ -12,14 +14,14 @@ interface Props {
 export default async function Page({ params }: Props) {
   headers(); // Make this page dynamic
 
-  const id = parseInt(params.teamId);
+  const teamId = parseInt(params.teamId);
 
-  if (!id) {
+  if (!teamId) {
     throw "Invalid team ID!";
   }
 
   const team = await prisma.team.findFirst({
-    where: { id },
+    where: { id: teamId },
     include: {
       members: true,
     },
@@ -29,6 +31,10 @@ export default async function Page({ params }: Props) {
     throw "Team not found!";
   }
 
+  const user = await getUser();
+
+  const canJointeam = !user || user.teamId !== teamId;
+
   return (
     <main>
       <h1>{team.name}</h1>
@@ -37,6 +43,11 @@ export default async function Page({ params }: Props) {
         {team.members.map((member) => (
           <li key={member.id}>{member.name}</li>
         ))}
+        {canJointeam && (
+          <li>
+            <JoinTeamButton teamId={teamId} />
+          </li>
+        )}
       </ul>
     </main>
   );
