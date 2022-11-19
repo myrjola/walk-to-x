@@ -82,16 +82,23 @@ export default async function handler(
     credentialBackedUp,
   } = registrationInfo;
 
+  const encodedCredentialId = credentialID.toString("base64url");
+
   await prisma.authenticator.create({
     data: {
       credentialPublicKey: credentialPublicKey,
-      credentialID: credentialID.toString("base64url"),
+      credentialID: encodedCredentialId,
       counter,
       credentialDeviceType,
       credentialBackedUp,
       webAuthnUserId: profile.webAuthnUser.id,
     },
   });
+
+  res.setHeader(
+    "Set-Cookie",
+    `token=${encodedCredentialId}; path=/; samesite=lax; httponly;`
+  );
 
   res.status(200).json({ verified });
 }
