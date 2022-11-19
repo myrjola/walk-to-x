@@ -27,6 +27,7 @@ export default function CreateTeam({ challenges }: Props) {
       challengeId: parseInt(challengeId),
     });
     if (team) {
+      router.refresh();
       router.push(`/teams/${team.id}`);
     }
   });

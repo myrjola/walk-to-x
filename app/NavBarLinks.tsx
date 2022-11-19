@@ -8,6 +8,7 @@ interface Props {
 export default function NavBarLinks({ teamId, isLoggedIn }: Props) {
   return (
     <div className="flex space-x-4">
+      <ActiveNavLink href="/">Home</ActiveNavLink>
       {teamId && (
         <ActiveNavLink href={`/teams/${teamId}`}>My team</ActiveNavLink>
       )}
