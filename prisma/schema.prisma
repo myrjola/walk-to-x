@@ -47,7 +47,7 @@ model UserProfile {
 
   webAuthnUser WebAuthnUser?
   team         Team?         @relation(fields: [teamId], references: [id])
-  teamId       Int?          @unique
+  teamId       Int?
   distances    Distance[]
 }
 

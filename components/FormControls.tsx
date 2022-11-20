@@ -9,7 +9,7 @@ const Input = React.forwardRef<HTMLInputElement, HTMLProps<HTMLInputElement>>(
       className={classNames(
         "relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm",
         {
-          "border-pink-500 text-pink-600 focus:border-pink-500 focus:outline-none focus:ring-pink-500":
+          "border-pink-500 focus:border-pink-500 focus:outline-none focus:ring-pink-500":
             props["aria-invalid"],
         },
         className
