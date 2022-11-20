@@ -9,7 +9,7 @@ export const appRouter = router({
         challengeId: z.number(),
       })
     )
-    .query(async ({ input, ctx }) => {
+    .mutation(async ({ input, ctx }) => {
       const user = await prisma.userProfile.update({
         where: {
           id: ctx.user.id,
@@ -36,7 +36,7 @@ export const appRouter = router({
         teamId: z.number().positive(),
       })
     )
-    .query(async ({ input, ctx }) => {
+    .mutation(async ({ input, ctx }) => {
       await prisma.userProfile.update({
         where: {
           id: ctx.user.id,
@@ -47,6 +47,21 @@ export const appRouter = router({
       });
 
       return true;
+    }),
+
+  logDistance: protectedProcedure
+    .input(
+      z.object({
+        meters: z.number().positive(),
+      })
+    )
+    .mutation(async ({ input, ctx }) => {
+      return prisma.distance.create({
+        data: {
+          userProfileId: ctx.user.id,
+          meters: input.meters,
+        },
+      });
     }),
 });
 

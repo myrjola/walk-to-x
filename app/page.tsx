@@ -1,5 +1,7 @@
 import { getUser } from "../server/services/user-rsc";
 import { redirect } from "next/navigation";
+import LogDistance from "./LogDistance";
+import MyStatistics from "./MyStatistics";
 
 export default async function Page() {
   const user = await getUser();
@@ -10,9 +12,10 @@ export default async function Page() {
   }
 
   return (
-    <main>
-      <h1>Walk to X</h1>
-      <p>Welcome {user.name}!</p>
-    </main>
+    <div>
+      <LogDistance />
+      {/* @ts-expect-error Server Component */}
+      <MyStatistics />
+    </div>
   );
 }

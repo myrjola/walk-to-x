@@ -23,7 +23,7 @@ export default function CreateTeam({ challenges }: Props) {
   } = useForm<FormData>();
 
   const onSubmit = handleSubmit(async ({ teamName, challengeId }) => {
-    const team = await client.addTeam.query({
+    const team = await client.addTeam.mutate({
       name: teamName,
       challengeId: parseInt(challengeId),
     });
