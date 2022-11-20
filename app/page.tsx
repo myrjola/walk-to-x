@@ -1,40 +1,17 @@
-import { cookies } from "next/headers";
-import prisma from "../lib/prisma";
-import Link from "next/link";
+import { getUser } from "../server/services/user-rsc";
+import { redirect } from "next/navigation";
 
 export default async function Page() {
-  const nextCookies = cookies(); // Make this page dynamic
-  const token = nextCookies.get("token");
+  const user = await getUser();
 
-  let userName;
-
-  if (token) {
-    const authenticator = await prisma.authenticator.findUnique({
-      where: {
-        credentialID: token.value,
-      },
-      include: {
-        webAuthnUser: {
-          include: {
-            userProfile: true,
-          },
-        },
-      },
-    });
-    userName = authenticator?.webAuthnUser?.userProfile?.name;
+  if (!user) {
+    redirect("/register");
   }
 
   return (
     <main>
       <h1>Walk to X</h1>
-      {userName ? (
-        <p>Welcome {userName}!</p>
-      ) : (
-        <>
-          <Link href="/sign-in">Sign in</Link>
-          <Link href="/register">Register new user</Link>
-        </>
-      )}
+      <p>Welcome {user.name}!</p>
     </main>
   );
 }
