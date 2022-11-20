@@ -1,3 +1,9 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@property --meters {
+  syntax: '<integer>';
+  initial-value: 0;
+  inherits: false;
+}

@@ -24,8 +24,8 @@ export default async function MyStatistics() {
       <div className="text-center">
         <div>You have walked</div>
         <div
-          style={{ ["--steps" as any]: totalMeters }}
-          className={`font-medium text-xl [transition:--steps_2s] [counter-set:steps_var(--steps)] after:[content:counter(steps)]`}
+          style={{ ["--meters" as any]: totalMeters }}
+          className={`font-medium text-xl [transition:--meters_2s] [counter-set:meters_var(--meters)] after:[content:counter(meters)]`}
         />{" "}
         <div>meters!</div>
       </div>
