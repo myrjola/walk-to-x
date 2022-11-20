@@ -4,6 +4,7 @@ import NavBar from "./NavBar";
 import { Sora } from "@next/font/google";
 
 const sora = Sora({
+  subsets: ["latin"],
   variable: "--font-sora",
 });
 
@@ -13,8 +14,8 @@ interface Props {
 
 export default function RootLayout({ children }: Props) {
   return (
-    <html lang="en" className={`${sora.variable} font-sans`}>
-      <body className="bg-stone-100">
+    <html lang="en" className={`${sora.variable} font-sans h-full bg-gray-50`}>
+      <body className="h-full">
         {/* @ts-expect-error Server Component */}
         <NavBar />
         {children}

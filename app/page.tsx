@@ -1,7 +1,6 @@
 import { cookies } from "next/headers";
-import RegisterUser from "./RegisterUser";
-import AuthenticateUser from "./AuthenticateUser";
 import prisma from "../lib/prisma";
+import Link from "next/link";
 
 export default async function Page() {
   const nextCookies = cookies(); // Make this page dynamic
@@ -32,8 +31,8 @@ export default async function Page() {
         <p>Welcome {userName}!</p>
       ) : (
         <>
-          <RegisterUser />
-          <AuthenticateUser />
+          <Link href="/sign-in">Sign in</Link>
+          <Link href="/register">Register new user</Link>
         </>
       )}
     </main>

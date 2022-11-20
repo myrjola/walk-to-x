@@ -19,7 +19,7 @@ export default async function handler(
 
   const { userName } = body;
   if (!userName) {
-    res.status(400).json({ error: "invalid username" });
+    res.status(400).json({ error: "Invalid username" });
     return;
   }
 
@@ -37,19 +37,19 @@ export default async function handler(
   });
 
   if (!profile || !profile.webAuthnUser) {
-    res.status(400).json({ error: "user not found" });
+    res.status(400).json({ error: "User not found" });
     return;
   }
 
   if (profile.webAuthnUser.authenticators.length > 0) {
-    res.status(403).json({ error: "user already registered" });
+    res.status(403).json({ error: "User already registered" });
     return;
   }
 
   const expectedChallenge = profile.webAuthnUser.challenge;
 
   if (!expectedChallenge) {
-    res.status(403).json({ error: "call generate-registration-options first" });
+    res.status(403).json({ error: "Call generate-registration-options first" });
     return;
   }
 
@@ -71,7 +71,7 @@ export default async function handler(
 
   const { verified, registrationInfo } = verification;
   if (!registrationInfo) {
-    res.status(500).json({ error: "empty registrationInfo" });
+    res.status(500).json({ error: "Empty registrationInfo" });
     return;
   }
   const {

@@ -17,16 +17,16 @@ model Team {
 
   authenticators Authenticator[]
   members        UserProfile[]
-  challenge      Challenge      @relation(fields: [challengeId], references: [id])
+  challenge      Challenge       @relation(fields: [challengeId], references: [id])
   challengeId    Int
 }
 
 model Challenge {
-  id           Int      @id @default(autoincrement())
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
-  name         String   @unique @db.VarChar(255)
-  meters       Float    @db.Double
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  name      String   @unique @db.VarChar(255)
+  meters    Float    @db.Double
 
   teams Team[]
 }

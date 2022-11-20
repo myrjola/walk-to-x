@@ -2,12 +2,18 @@
 
 import * as Popover from "@radix-ui/react-popover";
 
-export default function ProfileButton() {
+interface Props {
+  userName: string;
+}
+
+export default function ProfileButton({ userName }: Props) {
+  const abbreviatedUserName = userName.substring(0, 1).toUpperCase();
+
   return (
     <Popover.Root modal>
-      <Popover.Trigger className="flex justify-center items-center rounded-full bg-sky-600 text-lg text-white w-11 h-11 focus:outline-none focus-visible:ring-2 focus-visible:ring-white">
+      <Popover.Trigger className="flex justify-center items-center rounded-full bg-indigo-600 text-lg text-white w-11 h-11 focus:outline-none focus-visible:ring-2 focus-visible:ring-white">
         <span className="sr-only">Open user menu</span>
-        <span>M</span>
+        <span>{abbreviatedUserName}</span>
       </Popover.Trigger>
       <Popover.Portal>
         <Popover.Content

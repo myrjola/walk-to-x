@@ -3,6 +3,7 @@
 import client from "../../utils/trpc";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
+import * as FormControls from "../../components/FormControls";
 
 interface FormData {
   teamName: string;
@@ -34,21 +35,24 @@ export default function CreateTeam({ challenges }: Props) {
 
   return (
     <form onSubmit={onSubmit} className="flex flex-col">
-      <label>
+      <FormControls.Label>
         New team
-        <input {...register("teamName", { required: true })} />
-      </label>
+        <FormControls.Input
+          type="text"
+          {...register("teamName", { required: true })}
+        />
+      </FormControls.Label>
 
-      <label>
+      <FormControls.Label>
         Select challenge
-        <select {...register("challengeId")}>
+        <FormControls.Select {...register("challengeId")}>
           {challenges.map((challenge) => (
             <option key={challenge.id} value={challenge.id}>
               {challenge.name}
             </option>
           ))}
-        </select>
-      </label>
+        </FormControls.Select>
+      </FormControls.Label>
 
       <button disabled={isSubmitting} type="submit">
         Create

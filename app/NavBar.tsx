@@ -5,14 +5,12 @@ import ProfileButton from "./ProfileButton";
 export default async function NavBar() {
   const user = await getUser();
 
-  const isLoggedIn = Boolean(user);
-
   return (
     <nav className="bg-stone-800 flex justify-between p-2 items-baseline">
       <div className="flex gap-2">
-        <NavBarLinks teamId={user?.teamId} isLoggedIn={isLoggedIn} />
+        <NavBarLinks teamId={user?.teamId} isLoggedIn={Boolean(user)} />
       </div>
-      {isLoggedIn && <ProfileButton />}
+      {user && <ProfileButton userName={user.name} />}
     </nav>
   );
 }
