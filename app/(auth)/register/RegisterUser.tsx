@@ -55,7 +55,7 @@ export default function RegisterUser() {
   });
 
   return (
-    <form className="mt-8 space-y-6" onSubmit={onSubmit}>
+    <form className="mt-8 space-y-2" onSubmit={onSubmit}>
       <div>
         <FormControls.Label htmlFor="userName">Your name</FormControls.Label>
         <FormControls.Input
