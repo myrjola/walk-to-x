@@ -49,6 +49,7 @@ export default function RegisterUser() {
       setError("userName", {
         message: e + "",
       });
+      return;
     }
     router.push("/");
     router.refresh();

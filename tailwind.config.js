@@ -10,6 +10,19 @@ module.exports = {
       fontFamily: {
         sans: ["var(--font-sora)"],
       },
+      keyframes: {
+        gradient: {
+          "0%": {
+            "background-position": "0% 200%",
+          },
+          "100%": {
+            "background-position": "0% 0%",
+          },
+        },
+      },
+      animation: {
+        gradient: "gradient 2s ease infinite",
+      },
     },
   },
   plugins: [require("@tailwindcss/forms")],

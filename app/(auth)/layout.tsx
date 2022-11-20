@@ -11,6 +11,7 @@ export default async function AuthLayout({ children }: Props) {
 
   if (user) {
     redirect("/");
+    return null;
   }
 
   return (

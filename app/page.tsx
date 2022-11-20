@@ -6,6 +6,7 @@ export default async function Page() {
 
   if (!user) {
     redirect("/register");
+    return;
   }
 
   return (
