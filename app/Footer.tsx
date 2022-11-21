@@ -3,7 +3,7 @@ import { ArrowTopRightOnSquareIcon } from "@heroicons/react/20/solid";
 export default function Footer() {
   return (
     <footer className="flex justify-between bg-stone-800 p-5 gap-2 items-baseline">
-      <div className="text-gray-600 text-xs">© 2022 Martin Yrjölä</div>
+      <div className="text-gray-400 text-xs">© 2022 Martin Yrjölä</div>
       <a
         target="_blank"
         rel="noopener noreferrer"
