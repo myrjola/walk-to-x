@@ -6,16 +6,23 @@ interface Props {
 }
 
 export default function NavBarLinks({ teamId, isLoggedIn }: Props) {
+  if (!isLoggedIn) {
+    return (
+      <>
+        <ActiveNavLink href="/sign-in">Sign in</ActiveNavLink>
+        <ActiveNavLink href="/register">Register</ActiveNavLink>
+      </>
+    );
+  }
+
+  if (!teamId) {
+    return <ActiveNavLink href="/teams">Teams</ActiveNavLink>;
+  }
+
   return (
-    <div className="flex space-x-4">
-      <ActiveNavLink href="/">Home</ActiveNavLink>
-      {teamId && (
-        <ActiveNavLink href={`/teams/${teamId}`}>My team</ActiveNavLink>
-      )}
-      {isLoggedIn && (
-        <ActiveNavLink href="/leaderboard">Leaderboard</ActiveNavLink>
-      )}
-      <ActiveNavLink href="/teams">Teams</ActiveNavLink>
-    </div>
+    <>
+      <ActiveNavLink href={`/`}>Home</ActiveNavLink>
+      <ActiveNavLink href="/leaderboard">Leaderboard</ActiveNavLink>
+    </>
   );
 }

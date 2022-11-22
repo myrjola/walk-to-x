@@ -11,6 +11,11 @@ export default async function Page() {
     return;
   }
 
+  if (!user.teamId) {
+    redirect("/teams");
+    return null;
+  }
+
   return (
     <div>
       <LogDistance />

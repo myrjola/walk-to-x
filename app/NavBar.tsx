@@ -8,7 +8,9 @@ export default async function NavBar() {
   return (
     <nav className="bg-stone-800 flex justify-between p-2 items-baseline">
       <div className="flex gap-2">
-        <NavBarLinks teamId={user?.teamId} isLoggedIn={Boolean(user)} />
+        <div className="flex space-x-4">
+          <NavBarLinks teamId={user?.teamId} isLoggedIn={Boolean(user)} />
+        </div>
       </div>
       {user && <ProfileButton userName={user.name} />}
     </nav>
