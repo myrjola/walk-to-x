@@ -24,7 +24,7 @@ Input.displayName = "Input";
 function Label({ className, ...rest }: RadixLabel.LabelProps) {
   return (
     <RadixLabel.Root
-      className={classNames("block text-gray-500 text-sm mb-1", className)}
+      className={classNames("mb-1 block text-sm text-gray-500", className)}
       {...rest}
     />
   );
@@ -38,7 +38,7 @@ const Error = React.forwardRef<HTMLDivElement, ErrorProps>(
   ({ error, className, ...rest }, ref) => (
     <div
       role="alert"
-      className={classNames("text-sm text-pink-500 mt-1", className)}
+      className={classNames("mt-1 text-sm text-pink-500", className)}
       ref={ref}
       {...rest}
     >
@@ -55,7 +55,14 @@ const Select = React.forwardRef<
   HTMLSelectElement,
   HTMLProps<HTMLSelectElement>
 >(({ className, ...rest }, ref) => (
-  <select className={classNames("", className)} ref={ref} {...rest} />
+  <select
+    className={classNames(
+      "relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-500 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm",
+      className
+    )}
+    ref={ref}
+    {...rest}
+  />
 ));
 Select.displayName = "Select";
 

@@ -26,7 +26,7 @@ export default function LogDistance() {
     reset();
   });
   return (
-    <section className="max-w-md mx-auto p-4">
+    <section className="mx-auto max-w-md p-4">
       <h2 className="mt-6 mb-4 text-xl font-bold tracking-tight text-gray-900">
         How far did walk today?
       </h2>
@@ -35,6 +35,7 @@ export default function LogDistance() {
         <FormControls.Input
           id="steps"
           type="number"
+          className="m-0 appearance-none"
           aria-invalid={Boolean(errors.steps)}
           aria-errormessage={errors.steps ? "steps-error" : undefined}
           {...register("steps", {
@@ -47,7 +48,7 @@ export default function LogDistance() {
         <button
           type="submit"
           disabled={isSubmitting}
-          className="relative flex gap-2 items-center justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+          className="btn-primary text-lg"
         >
           <div className="absolute inset-y-0 left-0 flex items-center pl-3">
             {isSubmitting ? (

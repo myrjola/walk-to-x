@@ -19,7 +19,7 @@ export default function CreateTeam({ challenges }: Props) {
   const {
     register,
     handleSubmit,
-    formState: { isSubmitting },
+    formState: { isSubmitting, errors },
   } = useForm<FormData>();
 
   const onSubmit = handleSubmit(async ({ teamName, challengeId }) => {
@@ -34,29 +34,45 @@ export default function CreateTeam({ challenges }: Props) {
   });
 
   return (
-    <form onSubmit={onSubmit} className="flex flex-col">
-      <FormControls.Label>
-        New team
-        <FormControls.Input
-          type="text"
-          {...register("teamName", { required: true })}
-        />
-      </FormControls.Label>
+    <>
+      <h2 className="mb-4 text-xl font-medium">Create your team</h2>
 
-      <FormControls.Label>
-        Select challenge
-        <FormControls.Select {...register("challengeId")}>
-          {challenges.map((challenge) => (
-            <option key={challenge.id} value={challenge.id}>
-              {challenge.name}
-            </option>
-          ))}
-        </FormControls.Select>
-      </FormControls.Label>
+      <form onSubmit={onSubmit} className="flex flex-col">
+        <div>
+          <FormControls.Label htmlFor="teamName">Cool name</FormControls.Label>
+          <FormControls.Input
+            type="text"
+            id="teamName"
+            aria-invalid={Boolean(errors.teamName)}
+            {...register("teamName", {
+              required: "The team needs a cool name.",
+            })}
+          />
+          <FormControls.Error error={errors.teamName} />
+        </div>
 
-      <button disabled={isSubmitting} type="submit">
-        Create
-      </button>
-    </form>
+        <FormControls.Label className="flex items-center justify-between gap-4">
+          <div className="text-lg font-light text-gray-600">Team Challenge</div>
+          <FormControls.Select
+            className="flex-1"
+            {...register("challengeId", { required: true })}
+          >
+            {challenges.map((challenge) => (
+              <option key={challenge.id} value={challenge.id}>
+                {challenge.name}
+              </option>
+            ))}
+          </FormControls.Select>
+        </FormControls.Label>
+
+        <button
+          className="btn-primary mt-5"
+          disabled={isSubmitting}
+          type="submit"
+        >
+          {isSubmitting ? "Creating..." : "Create"}
+        </button>
+      </form>
+    </>
   );
 }
