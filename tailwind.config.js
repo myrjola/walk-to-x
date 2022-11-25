@@ -10,6 +10,18 @@ module.exports = {
       fontFamily: {
         sans: ["var(--font-sora)"],
       },
+      transitionProperty: {
+        left: "left",
+      },
+      dropShadow: {
+        gray: [
+          "0 0 4px theme(colors.gray.50)",
+          "0 0 4px theme(colors.gray.50)",
+          "0 0 4px theme(colors.gray.50)",
+          "0 0 4px theme(colors.gray.50)",
+          "0 0 4px theme(colors.gray.50)",
+        ],
+      },
       keyframes: {
         gradient: {
           "0%": {
