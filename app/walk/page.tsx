@@ -1,6 +1,7 @@
 "use client";
 import Walker from "../../components/icons/walker";
 import { useEffect, useRef, useState } from "react";
+import OtherTeam from "./OtherTeam";
 
 export default function Walk() {
   const [teamMeters, setTeamMeters] = useState(0);
@@ -28,7 +29,7 @@ export default function Walk() {
         +
       </button>
       <div
-        className="scrollbar-hide h-[300px] w-full overflow-x-scroll"
+        className="scrollbar-hide mt-8 h-[400px] w-full overflow-x-scroll"
         ref={ref}
       >
         <div
@@ -43,26 +44,25 @@ export default function Walk() {
               Helsinki
             </div>
           </div>
+          <OtherTeam />
           <div
-            style={{ ["--teamMeters" as any]: 300 + "px" }}
-            className="absolute top-0 left-[var(--teamMeters)] mb-3 w-min -translate-x-1/2 text-center text-indigo-600 hover:z-10 hover:text-gray-900 hover:drop-shadow-gray"
-          >
-            <div>Ketchup if you can</div>
-            <Walker width={64} height={64} className="mx-auto" />
-          </div>
-          <div
-            style={{ ["--teamMeters" as any]: 200 + "px" }}
+            style={{ ["--teamMeters" as any]: 280 + "px" }}
             className="absolute top-0 left-[var(--teamMeters)] mb-3 w-min -translate-x-1/2 text-center text-fuchsia-600 hover:z-10 hover:text-gray-900 hover:drop-shadow-gray"
           >
             <div>Moonwalkers</div>
-            <Walker width={64} height={64} className="mx-auto" />
+            <Walker
+              variant="unamused"
+              width={88}
+              height={88}
+              className="mx-auto"
+            />
           </div>
           <div
             style={{ ["--teamMeters" as any]: teamMeters + "px" }}
             className="drop-shadow-red-400 relative left-[var(--teamMeters)] mb-8 w-min -translate-x-1/2 text-center drop-shadow-gray transition-left duration-1000 ease-in-out"
           >
             <div>The snails</div>
-            <Walker width={64} height={64} className="mx-auto" />
+            <Walker width={88} height={88} className="mx-auto" />
           </div>
         </div>
       </div>
