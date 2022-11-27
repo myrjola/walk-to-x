@@ -1,4 +1,4 @@
-import Walker from "../../components/icons/walker";
+import Walker from "../components/icons/walker";
 import classNames from "classnames";
 import { metersToPx } from "./walkUtil";
 
@@ -12,7 +12,7 @@ interface Props {
 const teamColors = [
   "text-indigo-600",
   "text-pink-600",
-  "text-lime-600",
+  "text-lime-500",
   "text-fuchsia-600",
   "text-red-600",
   "text-violet-600",

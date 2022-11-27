@@ -28,14 +28,14 @@ export default function LogDistance() {
   return (
     <section className="mx-auto max-w-md p-4">
       <h2 className="mt-6 mb-4 text-xl font-bold tracking-tight text-gray-900">
-        How far did walk today?
+        How far did you walk?
       </h2>
       <form onSubmit={onSubmit} className="flex flex-col gap-2">
         <FormControls.Label htmlFor="steps">Steps</FormControls.Label>
         <FormControls.Input
           id="steps"
           type="number"
-          className="m-0 appearance-none"
+          className="m-0 appearance-none text-lg"
           aria-invalid={Boolean(errors.steps)}
           aria-errormessage={errors.steps ? "steps-error" : undefined}
           {...register("steps", {

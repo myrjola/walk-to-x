@@ -29,6 +29,17 @@ model Challenge {
   meters    Float    @db.Double
 
   teams Team[]
+  legs  Leg[]
+}
+
+model Leg {
+  name   String @db.VarChar(255)
+  meters Float  @db.Double
+
+  challenge   Challenge @relation(fields: [challengeId], references: [id])
+  challengeId Int
+
+  @@id([challengeId, name])
 }
 
 model Distance {
