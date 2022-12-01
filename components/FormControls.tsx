@@ -43,9 +43,8 @@ const Error = React.forwardRef<HTMLDivElement, ErrorProps>(
       {...rest}
     >
       {error && error.message}
-      <span aria-hidden className="invisible">
-        Inflates the box
-      </span>
+      {/*Inflates the box*/}
+      <span aria-hidden className="invisible" />
     </div>
   )
 );
