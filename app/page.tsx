@@ -52,7 +52,9 @@ export default async function Page() {
           }}
           className="relative left-[50%] h-[200px] w-[var(--challengeMeters)] border-b-8 border-dashed border-b-gray-600"
         >
-          <div className="absolute -right-1/2 h-1 w-1/2" />
+          <div className="absolute right-0">
+            <div className="relative -right-full h-px w-[50vw]" />
+          </div>
           {/* @ts-expect-error Server Component */}
           <LegDots />
           {/* @ts-expect-error Server Component */}
