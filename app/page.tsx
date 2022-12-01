@@ -9,9 +9,9 @@ import LogDistance from "./LogDistance";
 import MyStatistics from "./MyStatistics";
 import ChallengeTrack from "./ChallengeTrack";
 import { metersToPx } from "./walkUtil";
-import Walker from "../components/icons/walker";
 import LegDots from "./LegDots";
 import OtherTeams from "./OtherTeams";
+import MyTeam from "./MyTeam";
 
 export default async function Page() {
   const user = await getUser();
@@ -57,15 +57,7 @@ export default async function Page() {
           <LegDots />
           {/* @ts-expect-error Server Component */}
           <OtherTeams userTeamMeters={clampedUserTeamMeters} />
-          <div
-            style={{
-              ["--teamMeters" as any]: metersToPx(userTeamMeters),
-            }}
-            className="absolute left-[var(--teamMeters)] bottom-8 w-min -translate-x-1/2 text-center text-gray-600 drop-shadow-gray transition-left duration-1000 ease-in-out"
-          >
-            <div className="mb-1 font-medium">{team.name}</div>
-            <Walker width={88} height={88} className="mx-auto" />
-          </div>
+          <MyTeam meters={clampedUserTeamMeters} name={team.name} />
         </div>
       </ChallengeTrack>
     </>
