@@ -46,3 +46,11 @@ export const getTotalMetersForTeam = cache(async (teamId: number) => {
   });
   return aggregations._sum.meters ?? 0;
 });
+
+export const getTeam = cache(async (teamId: number) => {
+  return await prisma.team.findUniqueOrThrow({
+    where: {
+      id: teamId,
+    },
+  });
+});

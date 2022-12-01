@@ -1,6 +1,7 @@
 import {
   getUser,
   getUserChallenge,
+  getUserTeam,
   getUserTeamMeters,
 } from "../server/services/user-rsc";
 import { redirect } from "next/navigation";
@@ -25,24 +26,26 @@ export default async function Page() {
     return null;
   }
 
-  const challenge = await getUserChallenge();
+  const teamPromise = getUserTeam(),
+    challengePromise = getUserChallenge(),
+    userTeamMetersPromise = getUserTeamMeters();
 
-  if (!challenge) {
+  const team = await teamPromise,
+    challenge = await challengePromise,
+    userTeamMeters = await userTeamMetersPromise;
+
+  if (!challenge || !team || userTeamMeters == null) {
     return null;
   }
 
-  let userTeamMeters = await getUserTeamMeters();
-  if (userTeamMeters == null) {
-    return null;
-  }
-  userTeamMeters = Math.min(challenge.meters, userTeamMeters);
+  const clampedUserTeamMeters = Math.min(challenge.meters, userTeamMeters);
 
   return (
     <>
       <LogDistance />
       {/* @ts-expect-error Server Component */}
       <MyStatistics />
-      <ChallengeTrack userTeamMeters={userTeamMeters}>
+      <ChallengeTrack userTeamMeters={clampedUserTeamMeters}>
         <div
           style={{
             ["--challengeMeters" as any]: metersToPx(challenge.meters),
@@ -53,14 +56,14 @@ export default async function Page() {
           {/* @ts-expect-error Server Component */}
           <LegDots />
           {/* @ts-expect-error Server Component */}
-          <OtherTeams userTeamMeters={userTeamMeters} />
+          <OtherTeams userTeamMeters={clampedUserTeamMeters} />
           <div
             style={{
               ["--teamMeters" as any]: metersToPx(userTeamMeters),
             }}
             className="absolute left-[var(--teamMeters)] bottom-8 w-min -translate-x-1/2 text-center text-gray-600 drop-shadow-gray transition-left duration-1000 ease-in-out"
           >
-            <div className="mb-1 font-medium">The snails</div>
+            <div className="mb-1 font-medium">{team.name}</div>
             <Walker width={88} height={88} className="mx-auto" />
           </div>
         </div>

@@ -1,6 +1,7 @@
 import { cookies } from "next/headers";
 import {
   getChallengeForUserId,
+  getTeam,
   getTotalMetersForTeam,
   getUserFromTokenCookie,
 } from "./user";
@@ -11,6 +12,16 @@ export function getUser() {
     return getUserFromTokenCookie(token.value);
   }
   return undefined;
+}
+
+export async function getUserTeam() {
+  const user = await getUser();
+
+  if (!user || !user.teamId) {
+    return null;
+  }
+
+  return await getTeam(user.teamId);
 }
 
 export async function getUserChallenge() {
