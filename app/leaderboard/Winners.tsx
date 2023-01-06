@@ -10,30 +10,31 @@ interface Props {
 export default async function Winners({ challengeId }: Props) {
   const winners = await prisma.$queryRaw<
     { id: number; teamName: string; beatChallengeAt: string }[]
-  >`
-SELECT winningTeams.teamName,
+  >`SELECT winningTeams.teamName,
        MIN(winningTeams.overChallengeAt) beatChallengeAt
-FROM (
-SELECT 
-    Team.id,
-    Team.name teamName,
-    Distance.createdAt overChallengeAt,
-    SUM(teamDistances.meters) teamSum,
-    Challenge.meters
-FROM Team
-         INNER JOIN Challenge ON Team.challengeId = Challenge.id
-         INNER JOIN UserProfile ON UserProfile.teamId = Team.id
-         INNER JOIN Distance ON Distance.userProfileId = UserProfile.id
-         INNER JOIN Distance teamDistances ON Distance.userProfileId = UserProfile.id AND Distance.userProfileId = teamDistances.userProfileId
-WHERE teamDistances.createdAt <= Distance.createdAt
-      AND Challenge.id = ${challengeId}
-GROUP BY Team.name,
-       Distance.createdAt,
-       Distance.meters,
-       teamDistances.userProfileId,
-       Challenge.meters
-HAVING teamSum >= Challenge.meters
-ORDER BY Distance.createdAt) as winningTeams
+FROM (SELECT t.id,
+             t.name                    teamName,
+             Distance.createdAt        overChallengeAt,
+             SUM(teamDistances.meters) teamSum,
+             count(*)                  distancesSum,
+             Challenge.meters
+      FROM Team t
+               INNER JOIN Challenge ON t.challengeId = Challenge.id
+               INNER JOIN UserProfile ON UserProfile.teamId = t.id
+               INNER JOIN Distance ON Distance.userProfileId = UserProfile.id
+               INNER JOIN (SELECT up.teamId, d.meters, d.createdAt
+                           FROM UserProfile up
+                                    INNER JOIN Distance d ON d.userProfileId = up.id
+                           GROUP BY up.teamId, d.id, d.meters, d.createdAt) AS teamDistances
+                          ON teamDistances.teamId = t.id
+      WHERE teamDistances.createdAt <= Distance.createdAt
+        AND Challenge.id = ${challengeId}
+      GROUP BY t.name,
+               Distance.createdAt,
+               Distance.meters,
+               Challenge.meters
+      HAVING teamSum >= Challenge.meters
+      ORDER BY Distance.createdAt) as winningTeams
 GROUP BY winningTeams.teamName
 ORDER BY beatChallengeAt
 `;
@@ -44,7 +45,7 @@ ORDER BY beatChallengeAt
 
   return (
     <>
-      <h2 className="font-medium text-xl my-5">Winners</h2>
+      <h2 className="my-5 text-xl font-medium">Winners</h2>
 
       <Table.Table>
         <Table.Header>
@@ -60,7 +61,7 @@ ORDER BY beatChallengeAt
                 {index === 2 && <div className="absolute left-1.5">🥉</div>}
                 <span>{winner.teamName}</span>
               </Table.RowHeaderCell>
-              <Table.Cell className="text-left font-mono whitespace-nowrap">
+              <Table.Cell className="whitespace-nowrap text-left font-mono">
                 {format(parseJSON(winner.beatChallengeAt), "dd.MM.yyyy hh:mm")}
               </Table.Cell>
             </Table.Row>
