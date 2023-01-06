@@ -37,7 +37,7 @@ export default function CreateTeam({ challenges }: Props) {
     <>
       <h2 className="mb-4 text-xl font-medium">Create your team</h2>
 
-      <form onSubmit={onSubmit} className="flex flex-col">
+      <form onSubmit={onSubmit} className="flex flex-col gap-2">
         <div>
           <FormControls.Label htmlFor="teamName">Cool name</FormControls.Label>
           <FormControls.Input
@@ -66,7 +66,7 @@ export default function CreateTeam({ challenges }: Props) {
         </FormControls.Label>
 
         <button
-          className="btn-primary mt-5"
+          className="btn-primary"
           disabled={isSubmitting}
           type="submit"
         >

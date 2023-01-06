@@ -15,7 +15,7 @@ export default async function Teams() {
   }
 
   return (
-    <div className="mx-auto flex max-w-md flex-col px-4">
+    <div className="mx-auto flex max-w-md flex-col px-4 mb-8">
       <h1 className="my-4 text-center text-2xl font-medium">Teams</h1>
 
       <CreateTeam
