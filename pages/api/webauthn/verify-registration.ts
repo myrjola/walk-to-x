@@ -4,10 +4,10 @@ import {
   VerifiedRegistrationResponse,
   verifyRegistrationResponse,
 } from "@simplewebauthn/server";
-import { RegistrationCredentialJSON } from "@simplewebauthn/typescript-types";
+import { RegistrationResponseJSON } from "@simplewebauthn/typescript-types";
 import { resolveRpIdAndOrigin } from "../../../utils/webauthn";
 
-interface Input extends RegistrationCredentialJSON {
+interface Input extends RegistrationResponseJSON {
   userName: string;
 }
 
@@ -59,7 +59,7 @@ export default async function handler(
 
   try {
     verification = await verifyRegistrationResponse({
-      credential: body,
+      response: body,
       expectedChallenge,
       expectedOrigin: origin,
       expectedRPID: rpId,
@@ -82,11 +82,11 @@ export default async function handler(
     credentialBackedUp,
   } = registrationInfo;
 
-  const encodedCredentialId = credentialID.toString("base64url");
+  const encodedCredentialId = Buffer.from(credentialID).toString("base64url");
 
   await prisma.authenticator.create({
     data: {
-      credentialPublicKey: credentialPublicKey,
+      credentialPublicKey: Buffer.from(credentialPublicKey),
       credentialID: encodedCredentialId,
       counter,
       credentialDeviceType,

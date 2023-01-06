@@ -4,10 +4,10 @@ import {
   VerifiedAuthenticationResponse,
   verifyAuthenticationResponse,
 } from "@simplewebauthn/server";
-import { AuthenticationCredentialJSON } from "@simplewebauthn/typescript-types";
+import { AuthenticationResponseJSON } from "@simplewebauthn/typescript-types";
 import { resolveRpIdAndOrigin } from "../../../utils/webauthn";
 
-interface Input extends AuthenticationCredentialJSON {
+interface Input extends AuthenticationResponseJSON {
   userName: string;
 }
 
@@ -63,7 +63,7 @@ export default async function handler(
 
   try {
     verification = await verifyAuthenticationResponse({
-      credential: body,
+      response: body,
       expectedChallenge,
       expectedOrigin: origin,
       expectedRPID: rpId,
