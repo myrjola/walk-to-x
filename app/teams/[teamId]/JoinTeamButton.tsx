@@ -15,7 +15,7 @@ export default function JoinTeamButton({ teamId }: Props) {
   const joinTeam = async () => {
     setIsJoining(true);
     await client.joinTeam.mutate({ teamId });
-    await router.refresh();
+    await router.push("/");
   };
 
   return (
