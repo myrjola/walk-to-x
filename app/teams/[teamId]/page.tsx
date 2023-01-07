@@ -28,8 +28,8 @@ export default async function Page({ params }: Props) {
   }
 
   return (
-    <main>
-      <h1>{team.name}</h1>
+    <main className="mx-auto mb-8 flex max-w-md flex-col px-4">
+      <h1 className="my-4 text-center text-2xl font-medium">{team.name}</h1>
       {/* @ts-expect-error Server Component */}
       <Members teamId={teamId} />
     </main>

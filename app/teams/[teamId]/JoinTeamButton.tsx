@@ -19,8 +19,12 @@ export default function JoinTeamButton({ teamId }: Props) {
   };
 
   return (
-    <button disabled={isJoining} onClick={joinTeam}>
-      Join team
+    <button
+      className="btn-primary my-4"
+      disabled={isJoining}
+      onClick={joinTeam}
+    >
+      {isJoining ? "Joining..." : "Join team"}
     </button>
   );
 }
