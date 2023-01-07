@@ -15,9 +15,10 @@ export default async function LeaderBoard({ challengeId }: Props) {
 FROM (SELECT t.id,
              t.name                    teamName,
              Distance.createdAt        overChallengeAt,
-             SUM(teamDistances.meters) teamSum
+             SUM(teamDistances.meters) teamSum,
+             c.meters
       FROM Team t
-               INNER JOIN Challenge ON t.challengeId = Challenge.id
+               INNER JOIN Challenge c ON t.challengeId = c.id
                INNER JOIN UserProfile ON UserProfile.teamId = t.id
                INNER JOIN Distance ON Distance.userProfileId = UserProfile.id
                INNER JOIN (SELECT up.teamId, d.meters, d.createdAt
@@ -26,12 +27,12 @@ FROM (SELECT t.id,
                            GROUP BY up.teamId, d.id, d.meters, d.createdAt) AS teamDistances
                           ON teamDistances.teamId = t.id
       WHERE teamDistances.createdAt <= Distance.createdAt
-        AND Challenge.id = ${challengeId}
+        AND c.id = ${challengeId}
       GROUP BY t.name,
                Distance.createdAt,
                Distance.meters,
-               Challenge.meters
-      HAVING teamSum >= Challenge.meters
+               c.meters
+      HAVING teamSum >= c.meters
       ORDER BY Distance.createdAt) as winningTeams
 GROUP BY winningTeams.teamName
 ORDER BY beatChallengeAt
