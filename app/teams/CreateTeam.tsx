@@ -29,7 +29,7 @@ export default function CreateTeam({ challenges }: Props) {
     });
     if (team) {
       router.refresh();
-      router.push(`/teams/${team.id}`);
+      router.push(`/`);
     }
   });
 
@@ -65,11 +65,7 @@ export default function CreateTeam({ challenges }: Props) {
           </FormControls.Select>
         </FormControls.Label>
 
-        <button
-          className="btn-primary"
-          disabled={isSubmitting}
-          type="submit"
-        >
+        <button className="btn-primary" disabled={isSubmitting} type="submit">
           {isSubmitting ? "Creating..." : "Create"}
         </button>
       </form>
