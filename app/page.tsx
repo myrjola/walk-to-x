@@ -59,7 +59,11 @@ export default async function Page() {
           <LegDots />
           {/* @ts-expect-error Server Component */}
           <OtherTeams userTeamMeters={clampedUserTeamMeters} />
-          <MyTeam meters={clampedUserTeamMeters} name={team.name} />
+          <MyTeam
+            id={team.id}
+            meters={clampedUserTeamMeters}
+            name={team.name}
+          />
         </div>
       </ChallengeTrack>
     </>

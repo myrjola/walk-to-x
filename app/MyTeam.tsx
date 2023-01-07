@@ -2,13 +2,15 @@ import { metersToPx } from "./walkUtil";
 import Walker from "../components/icons/walker";
 
 interface Props {
+  id: number;
   name: string;
   meters: number;
 }
 
-export default function MyTeam({ meters, name }: Props) {
+export default function MyTeam({ id, meters, name }: Props) {
   return (
-    <div
+    <a
+      href={`/teams/${id}`}
       style={{
         ["--teamMeters" as any]: metersToPx(meters),
       }}
@@ -16,6 +18,6 @@ export default function MyTeam({ meters, name }: Props) {
     >
       <div className="mb-1 font-medium">{name}</div>
       <Walker width={88} height={88} className="mx-auto" />
-    </div>
+    </a>
   );
 }

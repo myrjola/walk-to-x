@@ -3,6 +3,7 @@ import classNames from "classnames";
 import { metersToPx } from "./walkUtil";
 
 interface Props {
+  id: number;
   name: string;
   teamMeters: number;
   userTeamMeters: number;
@@ -30,13 +31,15 @@ const teamColors = [
 const bottoms = ["bottom-8", "bottom-10", "bottom-12"];
 
 export default function OtherTeam({
+  id,
   name,
   teamMeters,
   userTeamMeters,
   index,
 }: Props) {
   return (
-    <button
+    <a
+      href={`/teams/${id}`}
       style={{ ["--teamMeters" as any]: metersToPx(teamMeters) }}
       className={classNames(
         "absolute bottom-8 left-[var(--teamMeters)] w-min -translate-x-1/2 text-center hover:z-10 hover:drop-shadow-gray",
@@ -51,6 +54,6 @@ export default function OtherTeam({
         height={88}
         className="mx-auto"
       />
-    </button>
+    </a>
   );
 }

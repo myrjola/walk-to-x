@@ -42,6 +42,7 @@ ORDER BY teamMeters
       {teams.map((team, index) => (
         <OtherTeam
           key={team.id}
+          id={team.id}
           index={index}
           teamMeters={team.teamMeters}
           userTeamMeters={userTeamMeters}
