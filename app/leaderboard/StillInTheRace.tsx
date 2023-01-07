@@ -1,6 +1,7 @@
 import React from "react";
 import prisma from "../../lib/prisma";
 import * as Table from "../../components/Table";
+import Link from "next/link";
 
 interface Props {
   challengeId: number;
@@ -36,10 +37,12 @@ ORDER BY remainingDistance
       </Table.Header>
       <tbody>
         {stillInTheRace.map((team) => (
-          <Table.Row className="relative" key={team.id}>
-            <Table.RowHeaderCell className="text-left">
-              <span>{team.teamName}</span>
-            </Table.RowHeaderCell>
+          <Table.Row key={team.id}>
+            <Link href={`/teams/${team.id}`}>
+              <Table.RowHeaderCell className="text-left">
+                <span>{team.teamName}</span>
+              </Table.RowHeaderCell>
+            </Link>
             <Table.Cell className="whitespace-nowrap text-left font-mono">
               {Math.ceil(team.remainingDistance)}
             </Table.Cell>

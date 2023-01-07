@@ -2,6 +2,7 @@ import React from "react";
 import prisma from "../../lib/prisma";
 import * as Table from "../../components/Table";
 import { format, parseJSON } from "date-fns";
+import Link from "next/link";
 
 interface Props {
   challengeId: number;
@@ -50,13 +51,15 @@ ORDER BY beatChallengeAt
       </Table.Header>
       <tbody>
         {winners.map((winner, index) => (
-          <Table.Row className="relative" key={winner.id}>
-            <Table.RowHeaderCell className="text-left">
-              {index === 0 && <div className="absolute left-1.5">🏆</div>}
-              {index === 1 && <div className="absolute left-1.5">🥈</div>}
-              {index === 2 && <div className="absolute left-1.5">🥉</div>}
-              <span>{winner.teamName}</span>
-            </Table.RowHeaderCell>
+          <Table.Row key={winner.id} className="relative">
+            <Link href={`/teams/${winner.id}`}>
+              <Table.RowHeaderCell className="text-left">
+                {index === 0 && <div className="absolute left-1.5">🏆</div>}
+                {index === 1 && <div className="absolute left-1.5">🥈</div>}
+                {index === 2 && <div className="absolute left-1.5">🥉</div>}
+                <span>{winner.teamName}</span>
+              </Table.RowHeaderCell>
+            </Link>
             <Table.Cell className="whitespace-nowrap text-left font-mono">
               {format(parseJSON(winner.beatChallengeAt), "dd.MM.yyyy hh:mm")}
             </Table.Cell>

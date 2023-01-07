@@ -4,13 +4,16 @@ import classNames from "classnames";
 export const Table = React.forwardRef<
   HTMLDivElement,
   React.HTMLProps<HTMLDivElement>
->(({ children, ...props }, ref) => (
+>(({ className, children, ...props }, ref) => (
   <div
-    className="max-w-md mx-auto overflow-x-auto relative shadow-md sm:rounded-lg bg-white"
+    className={classNames(
+      "relative mx-auto max-w-md overflow-x-auto bg-white shadow-md sm:rounded-lg",
+      className
+    )}
     ref={ref}
     {...props}
   >
-    <table className="w-full text-sm text-left text-gray-500">{children}</table>
+    <table className="w-full text-left text-sm text-gray-500">{children}</table>
   </div>
 ));
 Table.displayName = "Table";
@@ -21,7 +24,7 @@ export const Header = React.forwardRef<
 >(({ className, children, ...props }, ref) => (
   <thead
     className={classNames(
-      "text-xs text-gray-700 uppercase bg-gray-100",
+      "bg-gray-100 text-xs uppercase text-gray-700",
       className
     )}
     ref={ref}
@@ -37,7 +40,7 @@ export const Row = React.forwardRef<
   React.HTMLProps<HTMLTableRowElement>
 >(({ className, ...props }, ref) => (
   <tr
-    className={classNames("text-left px-4 py-2", className)}
+    className={classNames("px-4 py-2 text-left", className)}
     ref={ref}
     {...props}
   />
@@ -64,7 +67,7 @@ export const RowHeaderCell = React.forwardRef<
   <th
     scope="row"
     className={classNames(
-      "py-4 px-6 font-medium text-gray-900 whitespace-nowrap",
+      "whitespace-nowrap py-4 px-6 font-medium text-gray-900",
       className
     )}
     ref={ref}
