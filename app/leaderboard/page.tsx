@@ -1,7 +1,7 @@
 import { getUser } from "../../server/services/user-rsc";
 import prisma from "../../lib/prisma";
 import { redirect } from "next/navigation";
-import Winners from "./Winners";
+import LeaderBoard from "./LeaderBoard";
 
 export default async function Leaderboard() {
   const user = await getUser();
@@ -33,10 +33,10 @@ export default async function Leaderboard() {
   }
 
   return (
-    <div className="text-center p-4">
-      <h1 className="text-3xl font-medium">{challenge.name}</h1>
+    <div className="p-4 text-center">
+      <h1 className="mb-4 text-3xl font-medium">{challenge.name}</h1>
       {/* @ts-expect-error Server Component */}
-      <Winners challengeId={challenge.id} />
+      <LeaderBoard challengeId={challenge.id} />
     </div>
   );
 }

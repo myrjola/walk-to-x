@@ -7,17 +7,15 @@ interface Props {
   challengeId: number;
 }
 
-export default async function Winners({ challengeId }: Props) {
+export default async function LeaderBoard({ challengeId }: Props) {
   const winners = await prisma.$queryRaw<
     { id: number; teamName: string; beatChallengeAt: string }[]
-  >`SELECT winningTeams.teamName,
+  >`SELECT winningTeams.id, winningTeams.teamName,
        MIN(winningTeams.overChallengeAt) beatChallengeAt
 FROM (SELECT t.id,
              t.name                    teamName,
              Distance.createdAt        overChallengeAt,
-             SUM(teamDistances.meters) teamSum,
-             count(*)                  distancesSum,
-             Challenge.meters
+             SUM(teamDistances.meters) teamSum
       FROM Team t
                INNER JOIN Challenge ON t.challengeId = Challenge.id
                INNER JOIN UserProfile ON UserProfile.teamId = t.id
@@ -45,29 +43,25 @@ ORDER BY beatChallengeAt
 
   return (
     <>
-      <h2 className="my-5 text-xl font-medium">Winners</h2>
-
-      <Table.Table>
-        <Table.Header>
-          <Table.ColumnHeaderCell>Team</Table.ColumnHeaderCell>
-          <Table.ColumnHeaderCell>Reached goal at</Table.ColumnHeaderCell>
-        </Table.Header>
-        <tbody>
-          {winners.map((winner, index) => (
-            <Table.Row className="relative" key={winner.id}>
-              <Table.RowHeaderCell className="text-left">
-                {index === 0 && <div className="absolute left-1.5">🏆</div>}
-                {index === 1 && <div className="absolute left-1.5">🥈</div>}
-                {index === 2 && <div className="absolute left-1.5">🥉</div>}
-                <span>{winner.teamName}</span>
-              </Table.RowHeaderCell>
-              <Table.Cell className="whitespace-nowrap text-left font-mono">
-                {format(parseJSON(winner.beatChallengeAt), "dd.MM.yyyy hh:mm")}
-              </Table.Cell>
-            </Table.Row>
-          ))}
-        </tbody>
-      </Table.Table>
+      <Table.Header>
+        <Table.ColumnHeaderCell>Team</Table.ColumnHeaderCell>
+        <Table.ColumnHeaderCell>Reached goal at</Table.ColumnHeaderCell>
+      </Table.Header>
+      <tbody>
+        {winners.map((winner, index) => (
+          <Table.Row className="relative" key={winner.id}>
+            <Table.RowHeaderCell className="text-left">
+              {index === 0 && <div className="absolute left-1.5">🏆</div>}
+              {index === 1 && <div className="absolute left-1.5">🥈</div>}
+              {index === 2 && <div className="absolute left-1.5">🥉</div>}
+              <span>{winner.teamName}</span>
+            </Table.RowHeaderCell>
+            <Table.Cell className="whitespace-nowrap text-left font-mono">
+              {format(parseJSON(winner.beatChallengeAt), "dd.MM.yyyy hh:mm")}
+            </Table.Cell>
+          </Table.Row>
+        ))}
+      </tbody>
     </>
   );
 }
